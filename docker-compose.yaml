@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5003:5003
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      -  api-network
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=hazem12345.
+      - POSTGRES_USERNAME=postgres
+    volumes:
+      - postgres:/var/lib/postgresql
+    networks:
+      -  api-network
+volumes:
+  postgres:
+    name: db
+networks:
+  api-network:
+    driver: bridge
